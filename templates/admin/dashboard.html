@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Administrativo{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h1>🎛️ Dashboard Administrativo</h1>
+    
+    <div class="admin-stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📄</div>
+            <div class="stat-content">
+                <h3>{{ total_articles }}</h3>
+                <p>Total de Artigos</p>
+            </div>
+        </div>
+        
+        <div class="stat-card warning">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-content">
+                <h3>{{ pending_articles }}</h3>
+                <p>Pendentes</p>
+                {% if pending_articles > 0 %}
+                <a href="{% url 'admin_articles_pending' %}" class="stat-link">Ver →</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="stat-card success">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <h3>{{ approved_articles }}</h3>
+                <p>Aprovados</p>
+            </div>
+        </div>
+        
+        <div class="stat-card error">
+            <div class="stat-icon">❌</div>
+            <div class="stat-content">
+                <h3>{{ rejected_articles }}</h3>
+                <p>Rejeitados</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+                <h3>{{ total_users }}</h3>
+                <p>Usuários</p>
+                <a href="{% url 'admin_users_list' %}" class="stat-link">Ver →</a>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-content">
+                <h3>{{ total_comments }}</h3>
+                <p>Comentários</p>
+                {% if pending_comments > 0 %}
+                <span class="badge warning">{{ pending_comments }} pendentes</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">❤️</div>
+            <div class="stat-content">
+                <h3>{{ total_likes }}</h3>
+                <p>Curtidas</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-grid">
+        <div class="admin-section">
+            <h2>📊 Status dos Artigos</h2>
+            <canvas id="articlesChart"></canvas>
+        </div>
+        
+        <div class="admin-section">
+            <h2>👥 Usuários por Tipo</h2>
+            <canvas id="usersChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="admin-grid">
+        <div class="admin-section">
+            <h2>📰 Artigos Recentes</h2>
+            <div class="recent-list">
+                {% for article in recent_articles %}
+                <div class="recent-item">
+                    <div class="recent-info">
+                        <strong>{{ article.title }}</strong>
+                        <small>por {{ article.author.username }} - {{ article.created_at|date:"d/m/Y H:i" }}</small>
+                    </div>
+                    <span class="badge {% if article.approval_status == 'approved' %}success{% elif article.approval_status == 'pending' %}warning{% else %}error{% endif %}">
+                        {{ article.get_approval_status_display }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'admin_articles_all' %}" class="btn-secondary">Ver Todos</a>
+        </div>
+        
+        <div class="admin-section">
+            <h2>🔥 Artigos Mais Vistos</h2>
+            <div class="recent-list">
+                {% for article in top_articles %}
+                <div class="recent-item">
+                    <div class="recent-info">
+                        <strong>{{ article.title }}</strong>
+                        <small>{{ article.views }} visualizações</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-grid">
+        <div class="admin-section">
+            <h2>👤 Novos Usuários</h2>
+            <div class="recent-list">
+                {% for user in recent_users %}
+                <div class="recent-item">
+                    <div class="recent-info">
+                        <strong>{{ user.username }}</strong>
+                        <small>{{ user.profile.get_role_display }} - {{ user.date_joined|date:"d/m/Y" }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h2>💬 Comentários Recentes</h2>
+            <div class="recent-list">
+                {% for comment in recent_comments %}
+                <div class="recent-item">
+                    <div class="recent-info">
+                        <strong>{{ comment.user.username }}</strong>
+                        <small>{{ comment.content|truncatewords:10 }}</small>
+                    </div>
+                    <span class="badge {% if comment.approved %}success{% else %}warning{% endif %}">
+                        {% if comment.approved %}Aprovado{% else %}Pendente{% endif %}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+            {% if pending_comments > 0 %}
+            <a href="{% url 'admin_comments_pending' %}" class="btn-secondary">Ver Pendentes</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const articlesCtx = document.getElementById('articlesChart').getContext('2d');
+    new Chart(articlesCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Aprovados', 'Pendentes', 'Rejeitados'],
+            datasets: [{
+                data: [{{ approved_articles }}, {{ pending_articles }}, {{ rejected_articles }}],
+                backgroundColor: ['#4caf50', '#ff9800', '#f44336']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+    });
+    
+    const usersCtx = document.getElementById('usersChart').getContext('2d');
+    const roleLabels = [];
+    const roleCounts = [];
+    {% for role_data in users_by_role %}
+        {% if role_data.profile__role == 'leitor' %}
+            roleLabels.push('Leitores');
+        {% elif role_data.profile__role == 'jornalista' %}
+            roleLabels.push('Jornalistas');
+        {% elif role_data.profile__role == 'admin' %}
+            roleLabels.push('Administradores');
+        {% endif %}
+        roleCounts.push({{ role_data.count }});
+    {% endfor %}
+    
+    new Chart(usersCtx, {
+        type: 'bar',
+        data: {
+            labels: roleLabels,
+            datasets: [{
+                label: 'Usuários',
+                data: roleCounts,
+                backgroundColor: ['#2196f3', '#9c27b0', '#ff5722']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

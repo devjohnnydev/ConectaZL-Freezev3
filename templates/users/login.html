@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Conecta ZL{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="form-title">🔐 Entrar</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="message error mb-4">
+                <span>❌</span>
+                <span>Usuário ou senha incorretos. Tente novamente.</span>
+            </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="id_username" class="form-label">Nome de usuário</label>
+            <input type="text" name="username" id="id_username" class="form-input" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="id_password" class="form-label">Senha</label>
+            <input type="password" name="password" id="id_password" class="form-input" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+    </form>
+    <p class="mt-4 text-center">Não tem conta? <a href="{% url 'register' %}" class="card-link">Registre-se aqui</a></p>
+</div>
+{% endblock %}

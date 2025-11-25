@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Todas as Notícias - Conecta ZL{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header-section">
+    <h1 class="page-main-title">Todas as Notícias</h1>
+    <p class="page-subtitle">Fique por dentro de tudo que acontece na Zona Leste</p>
+</div>
+
+<!-- News Feed -->
+<div class="feed-container">
+    {% for article in articles %}
+        <article class="feed-card">
+            <div class="feed-card-header">
+                <div class="author-info">
+                    <div class="author-avatar">{{ article.author.username|slice:":1"|upper }}</div>
+                    <div class="author-details">
+                        <span class="author-name">{{ article.author.username }}</span>
+                        <span class="news-date">{{ article.created_at|date:"d 'de' F 'de' Y" }}</span>
+                    </div>
+                </div>
+                {% if article.featured %}
+                    <span class="news-badge badge-urgente">Urgente</span>
+                {% elif article.author.profile.role == 'admin' %}
+                    <span class="news-badge" style="background: var(--primary-color);">Cultura</span>
+                {% else %}
+                    <span class="news-badge" style="background: #10b981;">Saúde</span>
+                {% endif %}
+            </div>
+            
+            <h2 class="feed-card-title">{{ article.title }}</h2>
+            <p class="feed-card-excerpt">{{ article.excerpt }}</p>
+            
+            {% if article.image %}
+            <div class="feed-card-image-wrapper">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="feed-card-image" onclick="window.location.href='{% url 'article_detail' article.slug %}'">
+            </div>
+            {% endif %}
+            
+            <div class="feed-card-actions">
+                <button class="action-btn" onclick="window.location.href='{% url 'article_detail' article.slug %}'">
+                    <span>🔍</span> <span class="action-text">Ver mais</span>
+                </button>
+                <button class="action-btn" onclick="{% if user.is_authenticated %}likeArticle({{ article.id }}){% else %}alert('Faça login para curtir'){% endif %}">
+                    <span>❤️</span> <span class="action-count" id="likes-count-{{ article.id }}">{{ article.total_likes }}</span>
+                </button>
+                <button class="action-btn" onclick="window.location.href='{% url 'article_detail' article.slug %}#comments'">
+                    <span>💬</span> <span class="action-text">Comentar</span>
+                </button>
+                <button class="action-btn">
+                    <span>📤</span> <span class="action-text">Compartilhar</span>
+                </button>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty-state-modern">
+            <div class="empty-icon">📭</div>
+            <p class="empty-text">Nenhuma notícia publicada ainda.</p>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if articles.has_other_pages %}
+    <div class="pagination-modern">
+        {% if articles.has_previous %}
+            <a href="?page={{ articles.previous_page_number }}" class="pagination-btn">← Anterior</a>
+        {% endif %}
+        <span class="pagination-info">Página {{ articles.number }} de {{ articles.paginator.num_pages }}</span>
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}" class="pagination-btn">Próxima →</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+function likeArticle(articleId) {
+    fetch(`/article/${articleId}/like/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        const countElement = document.getElementById(`likes-count-${articleId}`);
+        if (countElement) {
+            countElement.textContent = data.total_likes;
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+{% endblock %}

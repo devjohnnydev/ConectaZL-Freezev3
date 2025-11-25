@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar - Conecta ZL{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="form-title">📝 Criar Conta</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="message error mb-4">
+                <span>❌</span>
+                <div>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="id_username" class="form-label">Nome de usuário</label>
+            <input type="text" name="username" id="id_username" class="form-input" required autofocus>
+            <small style="color: #6b7280; font-size: 0.875rem;">Escolha um nome de usuário único</small>
+        </div>
+        <div class="form-group">
+            <label for="id_password1" class="form-label">Senha</label>
+            <input type="password" name="password1" id="id_password1" class="form-input" required>
+            <small style="color: #6b7280; font-size: 0.875rem;">Mínimo 8 caracteres</small>
+        </div>
+        <div class="form-group">
+            <label for="id_password2" class="form-label">Confirmar senha</label>
+            <input type="password" name="password2" id="id_password2" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label for="id_location" class="form-label">Localização</label>
+            <input type="text" name="location" id="id_location" class="form-input" placeholder="Ex: Guaianazes, São Paulo">
+            <small style="color: #6b7280; font-size: 0.875rem;">Informe seu bairro ou região</small>
+        </div>
+        <div class="form-group">
+            <label for="id_role" class="form-label">Tipo de Perfil</label>
+            <select name="role" id="id_role" class="form-select">
+                <option value="leitor">👤 Leitor - Ler e comentar notícias</option>
+                <option value="jornalista">✍️ Jornalista - Criar e publicar notícias</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
+    </form>
+    <p class="mt-4 text-center">Já tem conta? <a href="{% url 'login' %}" class="card-link">Entrar aqui</a></p>
+</div>
+{% endblock %}

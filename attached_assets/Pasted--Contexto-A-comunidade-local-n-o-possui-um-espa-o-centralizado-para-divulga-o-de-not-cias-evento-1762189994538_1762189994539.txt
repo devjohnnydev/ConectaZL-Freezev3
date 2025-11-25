@@ -1,0 +1,83 @@
+ Contexto
+ A comunidade local não possui um espaço centralizado para divulgação de notícias, eventos e 
+informações importantes, dificultando a comunicação e engajamento entre moradores e órgãos locais.
+ Problemática
+ O desafio dos alunos será criar um portal de notícias completo, permitindo publicação de artigos, 
+comentários moderados, integração com mapas e API para apps mobile.
+ ️
+ Arquitetura do Projeto
+ Back-end (Django)
+  Django (framework principal)
+  Django REST Framework (API para apps mobile ou integração com sistemas externos)
+ Banco de Dados
+  PostgreSQL (armazenamento de usuários, artigos, comentários, categorias e geolocalizações)
+ Front-end
+  HTML, CSS, JavaScript
+  Editor de texto rico com django-summernote
+  Bootstrap ou Tailwind para interface responsiva
+ Módulos Principais
+ 1. Gestão de Usuários
+ o Perfis: jornalista, leitor e administrador
+ o Controle de permissões por função
+ 2. Publicação de Artigos
+ o Artigos com título, corpo, fotos, vídeos e tags (django-taggit)
+ o Editor de texto enriquecido com django-summernote
+ o Upload de imagens com Pillow
+ 3. Sistema de Comentários
+o Comentários moderados
+ o Controle de aprovação e moderação
+ 4. Destaques do Dia
+ o Identificação de artigos mais lidos ou curtidos
+ o Listagem em destaque na página principal
+ 5. Mapas e Geolocalização
+ o Integração com Google Maps ou biblioteca folium/geopy
+ o Localização de eventos e notícias por bairro ou cidade
+ 6. API REST
+ o Endpoints para artigos, categorias e comentários
+ o Consumo em aplicativos mobile ou integração com outros portais
+ Bibliotecas Necessárias
+ Biblioteca
+ django
+ django-rest
+framework
+ django-taggit
+ Instalação
+ pip install django
+ pip install djangorestframework
+ pip install django-taggit
+ django-summernote pip install django-summernote
+ Pillow
+ folium ou geopy
+ Entregáveis
+ pip install pillow
+ pip install folium ou pip install 
+geopy
+ Função
+ Framework principal
+ Criação de API REST
+ Gerenciamento de categorias e tags
+ Editor de texto rico para artigos
+ Upload e manipulação de imagens
+ Exibição 
+e 
+geolocalização
+ 1. Prototipação UI/UX (Figma ou similar)
+ o Fluxo de cadastro de jornalistas e leitores
+ o Publicação de artigos, comentários e visualização no mapa
+ o Protótipo navegável do portal
+ 2. Documentação Técnica e Funcional
+ o Requisitos funcionais e não funcionais
+ o Diagramas de entidades (DER)
+ o Casos de uso (publicar notícia, comentar, visualizar mapa)
+ o Manual de instalação e configuração
+ o Guia do usuário final
+ 3. Projeto Django Funcional
+ o CRUD de usuários, artigos e comentários
+ o Sistema de destaque de notícias mais lidas ou curtidas
+ o Integração de mapas para geolocalização de notícias
+ o API REST documentada e funcional
+ 4. Apresentação Final (dezembro/2025)
+ o Demonstração do portal de notícias
+ o Protótipo navegável e funcional
+ o Justificativa técnica das bibliotecas utilizadas
+ o Discussão das soluções implementadas e desafios encontrado

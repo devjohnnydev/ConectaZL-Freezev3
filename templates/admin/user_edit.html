@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Usuário{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="page-header">
+        <h1>✏️ Editar Perfil de {{ user_obj.username }}</h1>
+        <a href="{% url 'admin_users_list' %}" class="btn-secondary">← Voltar</a>
+    </div>
+    
+    <div class="user-edit-form">
+        <div class="user-info-card">
+            <h3>Informações do Usuário</h3>
+            <p><strong>Nome de usuário:</strong> {{ user_obj.username }}</p>
+            <p><strong>Email:</strong> {{ user_obj.email }}</p>
+            <p><strong>Data de cadastro:</strong> {{ user_obj.date_joined|date:"d/m/Y H:i" }}</p>
+            <p><strong>Artigos publicados:</strong> {{ user_obj.articles.count }}</p>
+            <p><strong>Comentários:</strong> {{ user_obj.comments.count }}</p>
+        </div>
+        
+        <div class="role-edit-card">
+            <h3>Alterar Perfil</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Perfil Atual: <strong>{{ user_obj.profile.get_role_display }}</strong></label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Novo Perfil:</label>
+                    <select name="role" id="role" required>
+                        <option value="leitor" {% if user_obj.profile.role == 'leitor' %}selected{% endif %}>Leitor</option>
+                        <option value="jornalista" {% if user_obj.profile.role == 'jornalista' %}selected{% endif %}>Jornalista</option>
+                        <option value="admin" {% if user_obj.profile.role == 'admin' %}selected{% endif %}>Administrador</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary">Atualizar Perfil</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

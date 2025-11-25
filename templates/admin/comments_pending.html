@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Comentários Pendentes{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="page-header">
+        <h1>💬 Comentários Pendentes</h1>
+        <a href="{% url 'admin_dashboard' %}" class="btn-secondary">← Voltar ao Dashboard</a>
+    </div>
+    
+    {% if comments %}
+    <div class="comments-list">
+        {% for comment in comments %}
+        <div class="comment-card">
+            <div class="comment-header">
+                <strong>{{ comment.user.username }}</strong>
+                <span>{{ comment.created_at|date:"d/m/Y H:i" }}</span>
+            </div>
+            <p>{{ comment.content }}</p>
+            <div class="comment-meta">
+                <span>Artigo: <a href="{% url 'article_detail' comment.article.slug %}">{{ comment.article.title }}</a></span>
+            </div>
+            <div class="comment-actions">
+                <a href="{% url 'admin_comment_approve' comment.id %}" class="btn-primary">Revisar</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>✅ Não há comentários pendentes!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

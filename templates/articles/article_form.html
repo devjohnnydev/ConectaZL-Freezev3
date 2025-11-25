@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if article %}Editar{% else %}Criar{% endif %} Artigo{% endblock %}
+
+{% block content %}
+<div class="modern-post-container">
+    <div class="modern-post-card">
+        <div class="modern-post-header">
+            <div class="author-profile">
+                <div class="author-avatar-large" {% if user.profile.avatar %}style="background-image: url('{{ user.profile.avatar.url }}'); background-size: cover; font-size: 0;"{% endif %}>
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div class="author-info-large">
+                    <h3 class="author-username">{{ user.username }}</h3>
+                    <span class="author-role">
+                        {% if user.profile.role == 'jornalista' %}Jornalista{% elif user.profile.role == 'admin' %}Administrador{% else %}Leitor{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" class="modern-post-form">
+            {% csrf_token %}
+            
+            <div class="post-input-group">
+                <input type="text" name="title" id="id_title" value="{% if article %}{{ article.title }}{% endif %}" class="post-title-input" required placeholder="Título da notícia..." autofocus>
+            </div>
+            
+            <div class="post-input-group">
+                <textarea name="content" id="id_content" rows="8" class="post-content-input" required placeholder="O que está acontecendo na sua região?">{% if article %}{{ article.content }}{% endif %}</textarea>
+            </div>
+            
+            <div class="post-expandable-section" id="expandableSection" style="display: none;">
+                <div class="post-input-group">
+                    <label for="id_excerpt" class="post-label">Resumo (opcional)</label>
+                    <textarea name="excerpt" id="id_excerpt" rows="2" class="post-excerpt-input" placeholder="Breve resumo que aparecerá nos cards...">{% if article %}{{ article.excerpt }}{% endif %}</textarea>
+                </div>
+                
+                <div class="post-input-group">
+                    <label for="id_tags" class="post-label">Tags</label>
+                    <input type="text" name="tags" id="id_tags" value="{% if article %}{% for tag in article.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}" class="post-tags-input" placeholder="política, esportes, tecnologia...">
+                </div>
+                
+                <div class="post-input-group">
+                    <label for="id_location_name" class="post-label">Localização</label>
+                    <input type="text" name="location_name" id="id_location_name" value="{% if article %}{{ article.location_name }}{% endif %}" class="post-location-input" placeholder="São Paulo, Zona Leste">
+                </div>
+                
+                <div class="post-location-coords">
+                    <input type="number" step="any" name="latitude" id="id_latitude" value="{% if article %}{{ article.latitude }}{% endif %}" class="post-coord-input" placeholder="Latitude">
+                    <input type="number" step="any" name="longitude" id="id_longitude" value="{% if article %}{{ article.longitude }}{% endif %}" class="post-coord-input" placeholder="Longitude">
+                </div>
+                
+                <div class="post-options">
+                    <label class="post-checkbox-label">
+                        <input type="checkbox" name="published" id="id_published" {% if article.published %}checked{% endif %} class="post-checkbox">
+                        <span>Publicar imediatamente</span>
+                    </label>
+                    
+                    {% if user.profile.role == 'admin' %}
+                        <label class="post-checkbox-label">
+                            <input type="checkbox" name="featured" id="id_featured" {% if article.featured %}checked{% endif %} class="post-checkbox">
+                            <span>Destacar na página inicial</span>
+                        </label>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <input type="file" name="image" id="id_image" class="hidden-file-input" accept="image/*">
+            
+            <div class="post-actions-bar">
+                <div class="post-action-icons">
+                    <button type="button" class="action-icon-btn" onclick="document.getElementById('id_image').click()" title="Adicionar imagem">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </button>
+                    
+                    <button type="button" class="action-icon-btn" onclick="document.getElementById('expandableSection').style.display = document.getElementById('expandableSection').style.display === 'none' ? 'block' : 'none'" title="Mais opções">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                    </button>
+                    
+                    <span class="image-filename" id="imageFilename"></span>
+                </div>
+                
+                <button type="submit" class="post-publish-btn">Publicar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('id_image').addEventListener('change', function(e) {
+    const filename = e.target.files[0]?.name;
+    const filenameSpan = document.getElementById('imageFilename');
+    if (filename) {
+        filenameSpan.textContent = filename;
+        filenameSpan.style.display = 'inline';
+    } else {
+        filenameSpan.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

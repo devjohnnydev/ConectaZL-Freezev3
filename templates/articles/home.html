@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Início - Conecta ZL{% endblock %}
+
+{% block fullwidth %}
+<!-- Hero Banner Roxo -->
+<div class="hero-banner">
+    <div class="hero-content-wrapper">
+        <div class="hero-left">
+            <div class="hero-brand">
+                {% load static %}
+                <img src="{% static 'images/logo_new.png' %}" alt="Conecta ZL" class="hero-brand-logo">
+                <div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-message-box">
+                <h1 class="hero-title">Sua Voz, Suas Histórias, Sua Comunidade em Destaque! ✨</h1>
+                <a href="#noticias" class="hero-button">Descubra Agora →</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Seção de Interação -->
+<div class="interaction-section">
+    <div class="interaction-card">
+        <div class="interaction-header">
+            <div class="user-prompt">
+                <div class="user-icon"></div>
+                <span>O que está acontecendo no seu bairro?</span>
+            </div>
+        </div>
+        <div class="interaction-actions">
+            {% if user.is_authenticated %}
+                {% if user.profile.role in 'jornalista,admin' %}
+                <a href="{% url 'article_create' %}" class="media-button">
+                    <span class="media-icon">📸</span> Foto/Vídeo
+                </a>
+                {% else %}
+                    <span class="media-button" style="opacity: 0.6; cursor: not-allowed;">
+                        <span class="media-icon">📸</span> Foto/Vídeo
+                    </span>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'login' %}" class="media-button">
+                    <span class="media-icon">📸</span> Foto/Vídeo
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Tab Navigation -->
+<div class="news-tabs">
+    <button class="news-tab active">Bairro</button>
+    <button class="news-tab">Principais Notícias</button>
+</div>
+
+<!-- News Grid -->
+<div id="noticias" class="news-grid">
+    {% for article in articles %}
+        <article class="news-card">
+            <div class="news-card-header">
+                <div class="author-info">
+                    <div class="author-avatar">{{ article.author.username|slice:":1"|upper }}</div>
+                    <div class="author-details">
+                        <span class="author-name">{{ article.author.username }}</span>
+                        <span class="news-date">{{ article.created_at|date:"d 'de' F 'de' Y" }}</span>
+                    </div>
+                </div>
+                {% if user.is_authenticated and user.profile.role == 'admin' or article.author == user %}
+                    <span class="news-badge badge-urgente">Urgente</span>
+                {% endif %}
+            </div>
+            
+            <h3 class="news-card-title">{{ article.title }}</h3>
+            <p class="news-card-excerpt">{{ article.excerpt|truncatewords:30 }}</p>
+            
+            {% if article.image %}
+            <div class="news-card-images">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="news-image">
+            </div>
+            {% endif %}
+            
+            <div class="news-card-actions">
+                <button class="action-btn" onclick="window.location.href='{% url 'article_detail' article.slug %}'">
+                    <span>🔍</span>
+                </button>
+                <button class="action-btn">
+                    <span>❤️</span> <span class="action-count">{{ article.total_likes }}</span>
+                </button>
+                <button class="action-btn">
+                    <span>💬</span>
+                </button>
+                <button class="action-btn">
+                    <span>📤</span>
+                </button>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty-state-modern">
+            <div class="empty-icon">📭</div>
+            <p class="empty-text">Nenhuma notícia publicada ainda.</p>
+            {% if user.is_authenticated %}
+                {% if user.profile.role == 'jornalista' or user.profile.role == 'admin' %}
+                    <a href="{% url 'article_create' %}" class="btn btn-primary mt-4">Criar Primeira Notícia</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+{% if articles.has_other_pages %}
+    <div class="pagination">
+        {% if articles.has_previous %}
+            <a href="?page={{ articles.previous_page_number }}" class="pagination-link">← Anterior</a>
+        {% endif %}
+        <span class="pagination-info">Página {{ articles.number }} de {{ articles.paginator.num_pages }}</span>
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}" class="pagination-link">Próxima →</a>
+        {% endif %}
+    </div>
+{% endif %}
+</div>
+{% endblock %}

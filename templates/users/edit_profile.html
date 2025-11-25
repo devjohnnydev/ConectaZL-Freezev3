@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil - Conecta ZL{% endblock %}
+
+{% block content %}
+<div class="edit-profile-container">
+    <div class="edit-profile-header">
+        <h1>Editar Perfil</h1>
+        <a href="{% url 'user_profile' user.username %}" class="btn-secondary">Cancelar</a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="edit-profile-form">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <h2>Banner do Perfil</h2>
+            <div class="banner-preview" {% if user.profile.banner %}style="background-image: url('{{ user.profile.banner.url }}');"{% endif %}>
+                {% if not user.profile.banner %}
+                <span>Nenhum banner definido</span>
+                {% endif %}
+            </div>
+            <input type="file" name="banner" accept="image/*" class="form-input-file">
+        </div>
+
+        <div class="form-section">
+            <h2>Foto de Perfil</h2>
+            <div class="avatar-preview" {% if user.profile.avatar %}style="background-image: url('{{ user.profile.avatar.url }}'); background-size: cover;"{% endif %}>
+                {% if not user.profile.avatar %}
+                {{ user.username|slice:":1"|upper }}
+                {% endif %}
+            </div>
+            <input type="file" name="avatar" accept="image/*" class="form-input-file">
+        </div>
+
+        <div class="form-section">
+            <label for="first_name">Nome</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" class="form-input">
+        </div>
+
+        <div class="form-section">
+            <label for="last_name">Sobrenome</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" class="form-input">
+        </div>
+
+        <div class="form-section">
+            <label for="location">Localização</label>
+            <input type="text" id="location" name="location" value="{{ user.profile.location }}" placeholder="Ex: Guaianazes, São Paulo" class="form-input">
+        </div>
+
+        <div class="form-section">
+            <label for="bio">Biografia</label>
+            <textarea id="bio" name="bio" rows="4" class="form-textarea" placeholder="Conte um pouco sobre você...">{{ user.profile.bio }}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Alterações</button>
+            <a href="{% url 'user_profile' user.username %}" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<style>
+.edit-profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.edit-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.edit-profile-header h1 {
+    font-size: 2rem;
+    color: var(--text-dark);
+}
+
+.edit-profile-form {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-input-file {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.banner-preview {
+    width: 100%;
+    height: 200px;
+    background: var(--bg-light);
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+.avatar-preview {
+    width: 150px;
+    height: 150px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 0.875rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+</style>
+{% endblock %}

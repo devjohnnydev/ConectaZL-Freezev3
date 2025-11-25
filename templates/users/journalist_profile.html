@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile_user.username }} - Perfil - Conecta ZL{% endblock %}
+
+{% block content %}
+<!-- Profile Header -->
+<div class="profile-header">
+    <div class="profile-banner" {% if profile_user.profile.banner %}style="background-image: url('{{ profile_user.profile.banner.url }}'); background-size: cover; background-position: center;"{% endif %}>
+        {% if profile_user == user %}
+        <a href="{% url 'edit_profile' %}" class="profile-edit-btn">✏️</a>
+        {% endif %}
+    </div>
+    
+    <div class="profile-info-section">
+        <div class="profile-avatar-large" {% if profile_user.profile.avatar %}style="background-image: url('{{ profile_user.profile.avatar.url }}'); background-size: cover; background-position: center; font-size: 0;"{% endif %}>
+            {{ profile_user.username|slice:":1"|upper }}
+        </div>
+        
+        <div class="profile-main-info">
+            <div class="profile-name-row">
+                <h1 class="profile-name">{{ profile_user.username }}</h1>
+                {% if profile_user.profile.role == 'admin' %}
+                    <span class="profile-verified">✓</span>
+                {% endif %}
+            </div>
+            
+            {% if profile_user.profile.bio %}
+                <p class="profile-bio">{{ profile_user.profile.bio }}</p>
+            {% else %}
+                <p class="profile-bio">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.</p>
+            {% endif %}
+            
+            <div class="profile-meta">
+                <span class="profile-meta-item">
+                    📍 {% if profile_user.profile.location %}{{ profile_user.profile.location }}{% else %}Guaianazes{% endif %}
+                </span>
+                <span class="profile-meta-item">
+                    📝 {{ total_posts }} posts
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Stats -->
+<div class="profile-stats-section">
+    <div class="profile-stat-card">
+        <span class="stat-number">{{ total_posts }}</span>
+        <span class="stat-label">Publicações</span>
+    </div>
+    <div class="profile-stat-card">
+        <span class="stat-number">{{ total_likes }}</span>
+        <span class="stat-label">Curtidas</span>
+    </div>
+    <div class="profile-stat-card">
+        <span class="stat-number">{{ total_views }}</span>
+        <span class="stat-label">Visualizações</span>
+    </div>
+</div>
+
+<!-- Action Section -->
+{% if profile_user == user %}
+<div class="profile-action-section">
+    <div class="profile-action-card">
+        <span class="action-icon">💬</span>
+        <span>Comece uma publicação</span>
+    </div>
+    <div class="profile-action-options">
+        <a href="{% url 'article_create' %}" class="action-option-btn">
+            <span class="action-option-icon">📸</span>
+            Foto/Vídeo
+        </a>
+        <button class="action-option-btn" style="background: var(--primary-color); color: white;">
+            Publicar
+        </button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Profile Tabs -->
+<div class="profile-tabs">
+    <button class="profile-tab active">Seus Posts</button>
+    <button class="profile-tab">Sobre</button>
+</div>
+
+<!-- Articles Grid -->
+<div class="profile-posts-grid">
+    {% for article in articles %}
+        <article class="profile-post-card" onclick="window.location.href='{% url 'article_detail' article.slug %}'">
+            {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="profile-post-image">
+            {% else %}
+                <div class="profile-post-placeholder">
+                    <span class="placeholder-icon">📰</span>
+                </div>
+            {% endif %}
+            <div class="profile-post-overlay">
+                <h3 class="profile-post-title">{{ article.title|truncatewords:8 }}</h3>
+                <div class="profile-post-stats">
+                    <span>❤️ {{ article.total_likes }}</span>
+                    <span>👁️ {{ article.views }}</span>
+                </div>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty-state-modern" style="grid-column: 1 / -1;">
+            <div class="empty-icon">📝</div>
+            <p class="empty-text">Nenhuma publicação ainda.</p>
+            {% if profile_user == user %}
+                <a href="{% url 'article_create' %}" class="btn btn-primary mt-4">Criar Primeira Publicação</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

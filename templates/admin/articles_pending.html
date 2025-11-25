@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Artigos Pendentes{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="page-header">
+        <h1>⏳ Artigos Pendentes de Aprovação</h1>
+        <a href="{% url 'admin_dashboard' %}" class="btn-secondary">← Voltar ao Dashboard</a>
+    </div>
+    
+    {% if articles %}
+    <div class="articles-list">
+        {% for article in articles %}
+        <div class="article-card pending">
+            <div class="article-header">
+                <h3>{{ article.title }}</h3>
+                <span class="badge warning">Pendente</span>
+            </div>
+            <div class="article-meta">
+                <span>👤 {{ article.author.username }}</span>
+                <span>📅 {{ article.created_at|date:"d/m/Y H:i" }}</span>
+                <span>👁️ {{ article.views }} visualizações</span>
+            </div>
+            <p>{{ article.excerpt|default:article.content|truncatewords:30 }}</p>
+            
+            {% if article.tags.all %}
+            <div class="article-tags">
+                {% for tag in article.tags.all %}
+                <span class="tag">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="article-actions">
+                <a href="{% url 'admin_article_approve' article.id %}" class="btn-primary">Revisar</a>
+                <a href="{% url 'article_detail' article.slug %}" class="btn-secondary">Ver Artigo</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>✅ Não há artigos pendentes de aprovação!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

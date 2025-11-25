@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Destaques - Conecta ZL{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header-section">
+    <h1 class="page-main-title">Destaques da Semana</h1>
+    <p class="page-subtitle">As notícias mais importantes da Zona Leste</p>
+</div>
+
+<!-- Featured Articles Section -->
+{% if featured_articles %}
+<div class="highlights-section">
+    {% for article in featured_articles %}
+        <article class="highlight-featured-card">
+            <span class="highlight-badge">Urgente</span>
+            
+            {% if article.image %}
+            <div class="highlight-image-wrapper">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="highlight-image">
+                <div class="highlight-overlay">
+                    <button class="highlight-see-video">See Video</button>
+                </div>
+            </div>
+            {% else %}
+            <div class="highlight-image-wrapper">
+                <div class="highlight-placeholder">
+                    <span class="placeholder-icon">🔍</span>
+                    <p>Sensitive content</p>
+                    <p class="placeholder-subtext">This video may contain graphic or violent content</p>
+                    <button class="highlight-see-video">See Video</button>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="highlight-content">
+                <h2 class="highlight-title">{{ article.title }}</h2>
+                <p class="highlight-date">{{ article.created_at|date:"d 'de' F 'de' Y" }}</p>
+                <p class="highlight-excerpt">{{ article.excerpt|truncatewords:40 }}</p>
+                <a href="{% url 'article_detail' article.slug %}" class="highlight-button">Ler notícia completa</a>
+            </div>
+        </article>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Other Highlights Section -->
+<div class="other-highlights-section">
+    <h2 class="section-title">Outros Destaques</h2>
+    
+    <div class="highlights-grid">
+        <!-- Most Liked Articles -->
+        <div class="highlights-column">
+            <h3 class="column-title">Mais Curtidas</h3>
+            {% for article in most_liked %}
+                <article class="highlight-mini-card">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="mini-card-image">
+                    {% else %}
+                        <div class="mini-card-image placeholder-bg"></div>
+                    {% endif %}
+                    <div class="mini-card-content">
+                        <h4 class="mini-card-title">{{ article.title|truncatewords:12 }}</h4>
+                        <p class="mini-card-date">{{ article.created_at|date:"d 'de' F 'de' Y" }}</p>
+                        <p class="mini-card-excerpt">{{ article.excerpt|truncatewords:20 }}</p>
+                        <a href="{% url 'article_detail' article.slug %}" class="mini-card-link">Leia mais</a>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="empty-message">Nenhuma notícia com curtidas ainda.</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Most Commented Articles -->
+        <div class="highlights-column">
+            <h3 class="column-title">Mais Comentadas</h3>
+            {% for article in most_commented %}
+                <article class="highlight-mini-card">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="mini-card-image">
+                    {% else %}
+                        <div class="mini-card-image placeholder-bg"></div>
+                    {% endif %}
+                    <div class="mini-card-content">
+                        <h4 class="mini-card-title">{{ article.title|truncatewords:12 }}</h4>
+                        <p class="mini-card-date">{{ article.created_at|date:"d 'de' F 'de' Y" }}</p>
+                        <p class="mini-card-excerpt">{{ article.excerpt|truncatewords:20 }}</p>
+                        <a href="{% url 'article_detail' article.slug %}" class="mini-card-link">Leia mais</a>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="empty-message">Nenhuma notícia com comentários ainda.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

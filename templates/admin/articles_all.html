@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Todos os Artigos{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="page-header">
+        <h1>📄 Todos os Artigos</h1>
+        <a href="{% url 'admin_dashboard' %}" class="btn-secondary">← Voltar ao Dashboard</a>
+    </div>
+    
+    <div class="filter-bar">
+        <a href="?status=" class="filter-btn {% if not status_filter %}active{% endif %}">Todos</a>
+        <a href="?status=pending" class="filter-btn {% if status_filter == 'pending' %}active{% endif %}">Pendentes</a>
+        <a href="?status=approved" class="filter-btn {% if status_filter == 'approved' %}active{% endif %}">Aprovados</a>
+        <a href="?status=rejected" class="filter-btn {% if status_filter == 'rejected' %}active{% endif %}">Rejeitados</a>
+    </div>
+    
+    <div class="articles-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Visualizações</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                <tr>
+                    <td><strong>{{ article.title }}</strong></td>
+                    <td>{{ article.author.username }}</td>
+                    <td>{{ article.created_at|date:"d/m/Y" }}</td>
+                    <td>
+                        <span class="badge {% if article.approval_status == 'approved' %}success{% elif article.approval_status == 'pending' %}warning{% else %}error{% endif %}">
+                            {{ article.get_approval_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ article.views }}</td>
+                    <td>
+                        <a href="{% url 'article_detail' article.slug %}" class="btn-small">Ver</a>
+                        {% if article.approval_status == 'pending' %}
+                        <a href="{% url 'admin_article_approve' article.id %}" class="btn-small">Revisar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

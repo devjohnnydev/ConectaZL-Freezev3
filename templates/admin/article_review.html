@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Revisar Artigo{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="page-header">
+        <h1>📝 Revisar Artigo</h1>
+        <a href="{% url 'admin_articles_pending' %}" class="btn-secondary">← Voltar</a>
+    </div>
+    
+    <div class="review-container">
+        <div class="article-preview">
+            <h2>{{ article.title }}</h2>
+            <div class="article-meta">
+                <span>👤 Por: {{ article.author.username }}</span>
+                <span>📅 {{ article.created_at|date:"d/m/Y H:i" }}</span>
+                <span>Status: <span class="badge {% if article.approval_status == 'approved' %}success{% elif article.approval_status == 'pending' %}warning{% else %}error{% endif %}">
+                    {{ article.get_approval_status_display }}
+                </span></span>
+            </div>
+            
+            {% if article.image %}
+            <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image">
+            {% endif %}
+            
+            <div class="article-content">
+                {{ article.content|safe }}
+            </div>
+            
+            {% if article.tags.all %}
+            <div class="article-tags">
+                <strong>Tags:</strong>
+                {% for tag in article.tags.all %}
+                <span class="tag">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {% if article.location_name %}
+            <div class="article-location">
+                <strong>📍 Localização:</strong> {{ article.location_name }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="review-actions-panel">
+            <h3>Ações de Moderação</h3>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="notes">Notas (opcional):</label>
+                    <textarea name="notes" id="notes" rows="4" placeholder="Adicione comentários sobre a decisão..."></textarea>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="submit" name="action" value="approve" class="btn-success">
+                        ✅ Aprovar Artigo
+                    </button>
+                    <button type="submit" name="action" value="reject" class="btn-danger">
+                        ❌ Rejeitar Artigo
+                    </button>
+                </div>
+            </form>
+            
+            <div class="article-info">
+                <h4>Informações do Artigo</h4>
+                <p><strong>Publicado:</strong> {{ article.published|yesno:"Sim,Não" }}</p>
+                <p><strong>Destaque:</strong> {{ article.featured|yesno:"Sim,Não" }}</p>
+                <p><strong>Visualizações:</strong> {{ article.views }}</p>
+                <p><strong>Curtidas:</strong> {{ article.total_likes }}</p>
+            </div>
+            
+            {% if article.approval_notes %}
+            <div class="previous-notes">
+                <h4>Notas Anteriores</h4>
+                <p>{{ article.approval_notes }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

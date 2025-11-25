@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }} - Portal de Notícias{% endblock %}
+
+{% block content %}
+<div class="article-header">
+    <h1 class="article-title">{{ article.title }}</h1>
+    <div class="article-meta">
+        <span>✍️ Por <strong>{{ article.author.username }}</strong></span>
+        <span>📅 {{ article.created_at|date:"d/m/Y H:i" }}</span>
+        <span>👁️ {{ article.views }} visualizações</span>
+    </div>
+</div>
+
+{% if article.image %}
+    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image">
+{% endif %}
+
+<div class="article-content">
+    {{ article.content|safe }}
+</div>
+
+<div style="background: white; padding: 2.5rem; border-radius: 1rem; box-shadow: var(--shadow); margin-bottom: 2rem;">
+    <div class="article-actions">
+        {% if user.is_authenticated %}
+            <button onclick="toggleLike({{ article.id }})" class="like-button" id="like-btn">
+                ❤️ <span id="like-count">{{ article.total_likes }}</span> Curtidas
+            </button>
+        {% else %}
+            <a href="{% url 'login' %}" class="like-button">
+                ❤️ {{ article.total_likes }} Curtidas
+            </a>
+        {% endif %}
+        
+        {% if user.is_authenticated %}
+            {% if user == article.author or user.profile.role == 'admin' %}
+                <a href="{% url 'article_edit' article.slug %}" class="btn btn-secondary">✏️ Editar</a>
+                <a href="{% url 'article_delete' article.slug %}" class="btn btn-danger">🗑️ Deletar</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    
+    {% if article.tags.all %}
+        <div class="tags">
+            <strong>Tags:</strong>
+            {% for tag in article.tags.all %}
+                <span class="tag">{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if map_html %}
+        <div style="margin-top: 2rem;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">🗺️ Localização</h3>
+            {{ map_html|safe }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="comments-section">
+    <h3 class="comments-title">💬 Comentários</h3>
+    
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_comment' article.id %}" style="margin-bottom: 2rem;">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea name="content" rows="4" class="form-textarea" placeholder="Escreva seu comentário..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">💬 Comentar</button>
+        </form>
+    {% else %}
+        <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center;">
+            <p>Para comentar, <a href="{% url 'login' %}" class="card-link">faça login</a> ou <a href="{% url 'register' %}" class="card-link">crie uma conta</a>.</p>
+        </div>
+    {% endif %}
+    
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="comment-author">👤 {{ comment.user.username }}</p>
+            <p class="comment-date">{{ comment.created_at|date:"d/m/Y H:i" }}</p>
+            <p class="comment-content">{{ comment.content }}</p>
+            {% if user.is_authenticated %}
+                {% if user == comment.user or user.profile.role == 'admin' %}
+                    <a href="{% url 'delete_comment' comment.id %}" style="color: var(--danger-color); font-weight: 600; text-decoration: none; margin-top: 0.5rem; display: inline-block;">🗑️ Deletar</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% empty %}
+        <div class="empty-state">
+            <div class="empty-state-icon">💭</div>
+            <p class="empty-state-text">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+<script>
+function toggleLike(articleId) {
+    fetch(`/article/${articleId}/like/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('like-count').textContent = data.total_likes;
+    });
+}
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,73 @@
+ 2. Limpar o cache do Git
+git gc --prune=now
+
+# 3. Recuperar as mudanças
+git stash pop
+
+# 4. Fazer commit
+git add .
+git commit -m "Fix static files configuration for Railway and create superuser"
+
+# 5. Tentar push novamente
+git push origin main --force
+Saved working directory and index state WIP on main: 35ebf61 Update application configuration for improved static file handling
+Enumerating objects: 814, done.
+Counting objects: 100% (814/814), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (310/310), done.
+Writing objects: 100% (814/814), done.
+Total 814 (delta 329), reused 736 (delta 296), pack-reused 0 (from 0)
+On branch main
+Your branch is ahead of 'origin/main' by 4 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+    modified:   .local/state/replit/agent/.agent_state_main.bin
+    modified:   .local/state/replit/agent/repl_state.bin
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (29edcf08fdb946d71f611cdea10a20085dca9dbd)
+[main e08ffa5] Fix static files configuration for Railway and create superuser
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+Enumerating objects: 179, done.
+Counting objects: 100% (179/179), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (115/115), done.
+Writing objects: 100% (179/179), 2.79 MiB | 6.15 MiB/s, done.
+Total 179 (delta 39), reused 172 (delta 34), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (39/39), done.
+remote: fatal: did not receive expected object c0f576943e29f87b6226ed47327392af78c28cfb
+error: remote unpack failed: index-pack failed
+To https://github.com/devjohnnydev/ConectaZL-Freezev3
+ ! [remote rejected] main -> main (failed)
+error: failed to push some refs to 'https://github.com/devjohnnydev/ConectaZL-Freezev3'
+~/workspace$ # 1. Criar um novo commit com todas as mudanças
+git add .
+git commit -m "Fix static files and add superuser configuration"
+
+# 2. Criar um novo branch limpo
+git checkout -b temp-branch
+
+# 3. Forçar push do novo branch
+git push origin temp-branch --force
+
+# 4. No GitHub, mude o branch principal para temp-branch
+# Ou faça merge do temp-branch no main através da interface do GitHub
+[main 7e1e565] Fix static files and add superuser configuration
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+Switched to a new branch 'temp-branch'
+Enumerating objects: 187, done.
+Counting objects: 100% (187/187), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (120/120), done.
+Writing objects: 100% (187/187), 2.84 MiB | 10.74 MiB/s, done.
+Total 187 (delta 41), reused 170 (delta 34), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (41/41), done.
+remote: fatal: did not receive expected object c0f576943e29f87b6226ed47327392af78c28cfb
+error: remote unpack failed: index-pack failed
+To https://github.com/devjohnnydev/ConectaZL-Freezev3
+ ! [remote rejected] temp-branch -> temp-branch (failed)
+error: failed to push some refs to 'https://github.com/devjohnnydev/ConectaZL-Freezev3'
+~/workspace$ 
