@@ -14,15 +14,27 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             role = request.POST.get('role', 'leitor')
-            if role not in ['leitor', 'jornalista']:
+            
+            if role not in ['leitor', 'jornalista', 'admin']:
                 role = 'leitor'
+            
             location = request.POST.get('location', '')
             user.profile.role = role
             user.profile.location = location
             user.profile.save()
+            
+            if role == 'admin':
+                user.is_staff = True
+                user.is_superuser = True
+                user.save()
+            
             login(request, user)
             messages.success(request, 'Cadastro realizado com sucesso!')
-            return redirect('home')
+            
+            if role == 'admin':
+                return redirect('admin_dashboard')
+            else:
+                return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'users/register.html', {'form': form})
