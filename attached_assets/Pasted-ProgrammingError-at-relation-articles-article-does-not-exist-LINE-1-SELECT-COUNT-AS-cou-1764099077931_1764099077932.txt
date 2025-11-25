@@ -1,0 +1,431 @@
+ProgrammingError at /
+relation "articles_article" does not exist
+LINE 1: SELECT COUNT(*) AS "__count" FROM "articles_article" WHERE (...
+                                          ^
+Request Method:	GET
+Request URL:	http://7366ab51-7187-4d0c-905e-9d5ae9361a11-00-1g3ulsthbgdnm.worf.replit.dev/
+Django Version:	5.2.8
+Exception Type:	ProgrammingError
+Exception Value:	
+relation "articles_article" does not exist
+LINE 1: SELECT COUNT(*) AS "__count" FROM "articles_article" WHERE (...
+                                          ^
+Exception Location:	/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 105, in _execute
+Raised during:	articles.views.home
+Python Executable:	/home/runner/workspace/.pythonlibs/bin/python3.11
+Python Version:	3.11.13
+Python Path:	
+['/home/runner/workspace',
+ '/nix/store/zz7i75jb78idaz0rb1y1i4rzdyxq28vf-sitecustomize/lib/python/site-packages',
+ '/nix/store/yaps09f01jp3fd1405qlr0qz6haf6z03-python3.11-pip-25.0.1/lib/python3.11/site-packages',
+ '/nix/store/7d088dip86hlzri9sk0h78b63yfmx0a0-python3-3.11.13/lib/python311.zip',
+ '/nix/store/7d088dip86hlzri9sk0h78b63yfmx0a0-python3-3.11.13/lib/python3.11',
+ '/nix/store/7d088dip86hlzri9sk0h78b63yfmx0a0-python3-3.11.13/lib/python3.11/lib-dynload',
+ '/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages',
+ '/nix/store/7d088dip86hlzri9sk0h78b63yfmx0a0-python3-3.11.13/lib/python3.11/site-packages',
+ '/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages',
+ '/nix/store/y0iwy8ma2m45pr23bw4r7lyz69v2b6wf-python3.11-setuptools-80.7.1/lib/python3.11/site-packages']
+Server time:	Tue, 25 Nov 2025 16:28:24 -0300
+Traceback Switch to copy-and-paste view
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 105, in _execute
+                return self.cursor.execute(sql, params)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+The above exception (relation "articles_article" does not exist LINE 1: SELECT COUNT(*) AS "__count" FROM "articles_article" WHERE (... ^ ) was the direct cause of the following exception:
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/handlers/exception.py, line 55, in inner
+                response = get_response(request)
+                               ^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/handlers/base.py, line 197, in _get_response
+                response = wrapped_callback(request, *callback_args, **callback_kwargs)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/articles/views.py, line 19, in home
+    articles = paginator.get_page(page_number)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/paginator.py, line 85, in get_page
+        return self.page(number)
+                   ^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/paginator.py, line 89, in page
+        number = self.validate_number(number)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/paginator.py, line 70, in validate_number
+        if number > self.num_pages:
+                        ^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/utils/functional.py, line 47, in __get__
+        res = instance.__dict__[self.name] = self.func(instance)
+                                                 ^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/paginator.py, line 116, in num_pages
+        if self.count == 0 and not self.allow_empty_first_page:
+                ^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/utils/functional.py, line 47, in __get__
+        res = instance.__dict__[self.name] = self.func(instance)
+                                                 ^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/core/paginator.py, line 110, in count
+            return c()
+                        ^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/models/query.py, line 606, in count
+        return self.query.get_count(using=self.db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/models/sql/query.py, line 644, in get_count
+        return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/models/sql/query.py, line 626, in get_aggregation
+        result = compiler.execute_sql(SINGLE)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/models/sql/compiler.py, line 1623, in execute_sql
+            cursor.execute(sql, params)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 122, in execute
+            return super().execute(sql, params)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 79, in execute
+        return self._execute_with_wrappers(
+                    …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 92, in _execute_with_wrappers
+        return executor(sql, params, many, context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 100, in _execute
+        with self.db.wrap_database_errors:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/utils.py, line 91, in __exit__
+                raise dj_exc_value.with_traceback(traceback) from exc_value
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/django/db/backends/utils.py, line 105, in _execute
+                return self.cursor.execute(sql, params)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ …
+Local vars
+Request information
+USER
+AnonymousUser
+
+GET
+No GET data
+
+POST
+No POST data
+
+FILES
+No FILES data
+
+COOKIES
+No cookie data
+
+META
+Variable	Value
+ALLOWED_HOSTS	
+'localhost,127.0.0.1,.replit.dev,.replit.app'
+CFLAGS	
+('-isystem '
+ '/nix/store/a92yy00dna3mpxl0ab9mzs8vbyc6qnfc-openjpeg-2.5.2-dev/include '
+ '-isystem '
+ '/nix/store/i2c4lj0hirk7i27xgib08zy0rdrkfi70-libpng-apng-1.6.46-dev/include '
+ '-isystem '
+ '/nix/store/w9qijf113qkgqcv54ydhbjh0rlslysbr-freetype-2.13.3-dev/include '
+ '-isystem /nix/store/bqppwwi9g8nzbk0b6hq6fwkqnwd06y63-tcl-8.6.15/include '
+ '-isystem '
+ '/nix/store/2h7ka57m0a8bspl8lfvvz4j21n72gnl3-libimagequant-4.3.4/include '
+ '-isystem '
+ '/nix/store/cy5f79cnkbnqr2rm04lh32m82dpif1qb-c-ares-1.34.5-dev/include '
+ '-isystem /nix/store/y2jwi4a4pgmavi994lfdvc6nj45nxi4f-icu4c-76.1-dev/include '
+ '-isystem /nix/store/gbcjq0rdlqwc3yixgi7gx6vb7xagv816-grpc-1.71.0/include '
+ '-isystem /nix/store/mijswdfwx4yvqpfrxg6c0cs228w9v7ll-zstd-1.5.7-dev/include '
+ '-isystem /nix/store/hsppjyxppm3gkb2m3m62ky2c3aarnf91-tk-8.6.15-dev/include '
+ '-isystem '
+ '/nix/store/fhzm23qj8n52xb7rhq4fx5pzwlkqafbz-re2-2024-07-02-dev/include '
+ '-isystem '
+ '/nix/store/skgkpw072rb1vff56y2yfiw1ahmjkac9-libjpeg-turbo-3.0.4-dev_private/include '
+ '-isystem '
+ '/nix/store/wp4nmh0byqn6w9885q10qm6v0vxq8m28-libxcb-1.17.0-dev/include '
+ '-isystem '
+ '/nix/store/b6y8k7i7bgkld9bgjjnsv5bqf2anq7yk-libjpeg-turbo-3.0.4-dev/include '
+ '-isystem /nix/store/8xj3g825qwj894bxafa8h98scxxyvxps-libdeflate-1.23/include '
+ '-isystem /nix/store/hf83zvz1bkmfmd52nlzc79937ardd4gr-lcms2-2.17-dev/include '
+ '-isystem /nix/store/glmlgiwv29vn9jaskk42byy0w6szph1c-libwebp-1.5.0/include '
+ '-isystem '
+ '/nix/store/2imhf872xdkal60k4ypkr3dfj8940hgj-libxcrypt-4.4.38/include '
+ '-isystem '
+ '/nix/store/kfbfka4ykzp66mi2hb5v183s64ivv1r6-libXft-2.3.9-dev/include '
+ '-isystem '
+ '/nix/store/g62rrqm02r4gjpgmq75702n7bip6zrji-abseil-cpp-20250127.1/include '
+ '-isystem /nix/store/wjqj8ncgdxqpn78qp23blp5ijprpavp9-bzip2-1.0.8-dev/include '
+ '-isystem '
+ '/nix/store/f57f52ppyksjmdvdlmxbvxp2vc29jiq4-fontconfig-2.16.0-dev/include '
+ '-isystem '
+ '/nix/store/b2aj478jxny0yvwqr6zglcmp99r3563b-libX11-1.8.12-dev/include '
+ '-isystem /nix/store/m9rqkx8s9a45wivak202kiw7p11xp6n5-libwebp-1.5.0/include '
+ '-isystem '
+ '/nix/store/xdczp4bkrp2dff2apb1vbybbfmfi8f7d-brotli-1.1.0-dev/include '
+ '-isystem /nix/store/rxd3kdsc7k72198g58wk0qp3xdip5x5d-zlib-1.3.1-dev/include '
+ '-isystem /nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/include '
+ '-isystem '
+ '/nix/store/42k2syi8dwkkb65kbyjgki9k3z5hk6mm-postgresql-17.5-dev/include '
+ '-isystem /nix/store/96gg2hmb5h8bk9lw2mcd26nmyxzpjpkx-xz-5.8.1-dev/include '
+ '-isystem '
+ '/nix/store/5g9x5d47q7l3xwzalsc2hh4dc6lciri5-python3.12-greenlet-3.2.1/include '
+ '-isystem '
+ '/nix/store/spg20iadf5ylh7pl1l9q8ydf7dqghdfi-xorgproto-2024.1/include '
+ '-isystem '
+ '/nix/store/yl4f9w6g0msqj3nfmyndvkwh8bpcpp04-libtiff-4.7.0-dev/include '
+ '-isystem '
+ '/nix/store/w3y3kkvf7q5pky33pq97y6gdrhsc09qa-libtiff-4.7.0-dev_private/include '
+ '-isystem '
+ '/nix/store/iywn2pwh2cmyvq12d5a9jm9xgx86i2sw-libXrender-0.9.12-dev/include '
+ '-isystem '
+ '/nix/store/6i862vz60awrlsila8vw18rg4d4l66iy-gcc-14.2.1.20250322/include')
+COLORTERM	
+'truecolor'
+CONNECTORS_HOSTNAME	
+'connectors.replit.com'
+CONTENT_LENGTH	
+''
+CONTENT_TYPE	
+'text/plain'
+DATABASE_URL	
+'postgresql://postgres:password@helium/heliumdb?sslmode=disable'
+DEBUG	
+'True'
+DISPLAY	
+':0'
+DJANGO_SETTINGS_MODULE	
+'portal_noticias.settings'
+DOCKER_CONFIG	
+'/home/runner/workspace/.config/docker'
+GATEWAY_INTERFACE	
+'CGI/1.1'
+GIT_ASKPASS	
+'********************'
+GIT_EDITOR	
+'replit-git-editor'
+GI_TYPELIB_PATH	
+''
+GLIBC_TUNABLES	
+'glibc.rtld.optional_static_tls=10000'
+HOME	
+'/home/runner'
+HOSTNAME	
+'c471faafa80f'
+HTTP_ACCEPT	
+'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+HTTP_ACCEPT_ENCODING	
+'identity, gzip, deflate, br, zstd'
+HTTP_ACCEPT_LANGUAGE	
+'pt-BR,pt;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,pt-PT;q=0.5'
+HTTP_HOST	
+'7366ab51-7187-4d0c-905e-9d5ae9361a11-00-1g3ulsthbgdnm.worf.replit.dev'
+HTTP_REFERER	
+'https://7366ab51-7187-4d0c-905e-9d5ae9361a11-00-1g3ulsthbgdnm.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Arep%3A'
+HTTP_SEC_CH_UA	
+'"Chromium";v="142", "Microsoft Edge";v="142", "Not_A Brand";v="99"'
+HTTP_SEC_CH_UA_MOBILE	
+'?0'
+HTTP_SEC_CH_UA_PLATFORM	
+'"Windows"'
+HTTP_SEC_FETCH_DEST	
+'iframe'
+HTTP_SEC_FETCH_MODE	
+'navigate'
+HTTP_SEC_FETCH_SITE	
+'same-origin'
+HTTP_SEC_FETCH_STORAGE_ACCESS	
+'active'
+HTTP_UPGRADE_INSECURE_REQUESTS	
+'1'
+HTTP_USER_AGENT	
+('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like '
+ 'Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0')
+HTTP_X_FORWARDED_FOR	
+'200.206.114.154, 10.83.3.237'
+HTTP_X_FORWARDED_PROTO	
+'https'
+HTTP_X_REPLIT_USER_BIO	
+''
+HTTP_X_REPLIT_USER_ID	
+''
+HTTP_X_REPLIT_USER_NAME	
+''
+HTTP_X_REPLIT_USER_PROFILE_IMAGE	
+''
+HTTP_X_REPLIT_USER_ROLES	
+''
+HTTP_X_REPLIT_USER_TEAMS	
+''
+HTTP_X_REPLIT_USER_URL	
+''
+LANG	
+'en_US.UTF-8'
+LDFLAGS	
+('-L/nix/store/nv6z25ghscygq6jzivn705ds5ycvak5q-python3.12-decorator-5.2.1/lib '
+ '-L/nix/store/c42zwaj3y8s54q4yz75mabqgamw23yzs-python3.12-flask-socketio-5.5.1/lib '
+ '-L/nix/store/yyssjqn8xhiifii8lzzhn6kxzg6kkcl3-python3.12-pyjwt-2.10.1/lib '
+ '-L/nix/store/msa023p37z8y5arynrcnlq55q6v1sshv-python3.12-azure-mgmt-rdbms-10.1.0/lib '
+ '-L/nix/store/0mb252yr406p9dzywz4m75adc8h8z0k1-python3.12-azure-mgmt-nspkg-3.0.2/lib '
+ '-L/nix/store/fl325h2l01wkc35gydi7h6knqi9939k6-python3.12-azure-identity-1.21.0/lib '
+ '-L/nix/store/61bydncj9m9k1h8jmgx5bi0smw1gk7sy-python3.12-pyparsing-3.2.3/lib '
+ '-L/nix/store/x7rk8y5x8wzf1wr24jbx7k2sg75i5876-python3.12-protobuf-6.30.2/lib '
+ '-L/nix/store/i5zhfmdbcv6hxr7n4ajcrai7mzz36dkf-python3.12-markdown-it-py-3.0.0/lib '
+ '-L/nix/store/k1wm28bqqal5lnpp7a3xb5c2binwc68k-python3.12-aiosignal-1.3.2/lib '
+ '-L/nix/store/lcf7qnylsdhm0gfqa954cjdhgpyxyqi8-python3.12-msrestazure-0.6.4/lib '
+ '-L/nix/store/s7d15z67bjqii4s5pd226nvj56mix0rz-python3.12-roman-numerals-py-3.1.0/lib '
+ '-L/nix/store/1a78f92ia98q5ly5wksx9vpzb4v36y4f-python3.12-h11-0.16.0/lib '
+ '-L/nix/store/xa8vcbz8133h9gmsl2x401kacdyrcc6j-python3.12-pygments-2.19.1/lib '
+ '-L/nix/store/yy5wrgdgz6ph53nrxbpb28z41n3ffina-python3.12-google-api-python-client-2.166.0/lib '
+ '-L/nix/store/xrysn5kzwyg8c9bk7w9bcv0sp76n0zd0-python3.12-more-itertools-10.6.0/lib '
+ '-L/nix/store/cilcx36qaqhnlhbil1wqiaswzm6lvcxi-python3.12-click-8.1.8/lib '
+ '-L/nix/store/5q1bdrgv3jy0ljs6fmvfzxmza3prjxc2-python3.12-pyotp-2.9.0/lib '
+ '-L/nix/store/ww9zpj86avq3nrhlwh65mvxv5v5fchmb-python3.12-python-socketio-5.13.0/lib '
+ '-L/nix/store/qyfpx5ckczr0w5hrn12jwh7i2n481a95-python3.12-azure-nspkg-3.0.2/lib '
+ '-L/nix/store/gchf82fdxj3c26i8qsvmwn1f6axfrnaz-python3.12-deprecated-1.2.18/lib '
+ '-L/nix/store/5gcj1p04imfyv88a088d16y7mimlg18g-python3.12-passlib-1.9.0/lib '
+ '-L/nix/store/hf8nl6v69dzpydg2kzzphygsdqyq48rr-python3.12-shellingham-1.5.4/lib '
+ '-L/nix/store/ld8pfb6mln7r2jcva1rf30qxwmjzl7ya-python3.12-toml-0.10.2/lib '
+ '-L/nix/store/a92yy00dna3mpxl0ab9mzs8vbyc6qnfc-openjpeg-2.5.2-dev/lib '
+ '-L/nix/store/k4qm3jlysf5crywc40d4v5w34kj5lksz-python3.12-python-dateutil-2.9.0.post0/lib '
+ '-L/nix/store/1nsvsrqp5zm96r9p3rrq3yhlyw8jiy91-libX11-1.8.12/lib '
+ '-L/nix/store/arky6f4cnw770vfv8x1vz6ld78gjh3kh-python3.12-azure-common-1.1.28/lib '
+ '-L/nix/store/i6ck04ari3rdn1g0yv0igl3lnvfyf73p-python3.12-sphinxcontrib-jsmath-1.0.1/lib '
+ '-L/nix/store/vmgvxvs8p7nqinpmw6lp37zpl2gbgdly-python3.12-aiohappyeyeballs-2.6.1/lib '
+ '-L/nix/store/888gsb8r01k3ma54lq43gx7v1x4kxm2i-python3.12-rich-14.0.0/lib '
+ '-L/nix/store/i2c4lj0hirk7i27xgib08zy0rdrkfi70-libpng-apng-1.6.46-dev/lib '
+ '-L/nix/store/zscjq1frmx8iayfmrvn9wwkwnq3xv56f-python3.12-flask-babel-4.0.0/lib '
+ '-L/nix/store/729dx4685kii9j0hw7s2hiszlkgsr997-python3.12-sphinxcontrib-youtube-1.4.1/lib '
+ '-L/nix/store/v2npq52d5np9p72i79haszabiaql201v-python3.12-aiohttp-3.11.15/lib '
+ '-L/nix/store/9jprq0gha23rahbqf0vhhcdyvm58gqrg-python3.12-oauthlib-3.2.2/lib '
+ '-L/nix/store/hx4azv435qg3bx6286rphd3n910c35pg-python3.12-packaging-24.2/lib '
+ '-L/nix/store/sk67m13n9jbk0j8q3h8lzxyw5riah1km-icu4c-76.1/lib '
+ '-L/nix/store/w9qijf113qkgqcv54ydhbjh0rlslysbr-freetype-2.13.3-dev/lib '
+ '-L/nix/store/d98657x0vlbfs87rr2ngwbhl1zs46m7f-gcc-14.2.1.20250322-libgcc/lib '
+ '-L/nix/store/f3xb192jmg6abd3caph11nl331qj29r0-pgadmin-9.3/lib '
+ '-L/nix/store/ww0nnd0vdi3wg6j2qj4a0akn0kd47338-python3.12-brotli-1.1.0/lib '
+ '-L/nix/store/rjzinq9jznfpx5c7k35d937r6m0sdrbi-python3.12-bidict-0.23.1/lib '
+ '-L/nix/store/524hn5f3f12cs8pqmwyahf243gs6lhvb-python3.12-redis-5.2.1/lib '
+ '-L/nix/store/qzicnwci4dpqzykmlf91yvchhhbq968s-python3.12-jinja2-3.1.6/lib '
+ '-L/nix/store/5h4vyznrzc92nc5ba7g77clbj4p5jf2x-python3.12-psycopg-3.2.8/lib '
+ '-L/nix/store/8i30fm136r8a6sdw2f0rs0sxz8jh760s-python3.12-cryptography-44.0.2/lib '
+ '-L/nix/store/mmmp741ghan3m3znzia5yzdqr6wn5yd9-python3.12-aiodns-3.2.0/lib '
+ '-L/nix/store/m0sv7wwfwlf385k1a84vay39ssqgmd30-python3.12-propcache-0.3.1/lib '
+ '-L/nix/store/w7xfpjinkid66kbzvpghwpbpzrkbl1ik-python3.12-psutil-7.0.0/lib '
+ '-L/nix/store/gzbg0rb3d71qm8ynylg1nqj6282cbzsd-python3.12-importlib-metadata-8.6.1/lib '
+ '-L/nix/store/mwj13sx9rdsg7pn6rjsz1nshahv17vjn-python3.12-pynacl-1.5.0/lib '
+ '-L/nix/store/19rbfa56zl9baks43nwdsggmz0a4jg1a-python3.12-urllib3-2.3.0/lib '
+ '-L/nix/store/k4hkgv9znp3yk1jb1cak6sm1d20k5k57-libXft-2.3.9/lib '
+ '-L/nix/store/bqppwwi9g8nzbk0b6hq6fwkqnwd06y63-tcl-8.6.15/lib '
+ '-L/nix/store/l6lmcva95gzy9n751kanlqcg7mrlxddl-python3.12-flask-compress-1.17/lib '
+ '-L/nix/store/jxd6gy0f3i3nlgljblnvfms77468ax20-python3.12-requests-oauthlib-2.0.0/lib '
+ '-L/nix/store/2h7ka57m0a8bspl8lfvvz4j21n72gnl3-libimagequant-4.3.4/lib '
+ '-L/nix/store/icwzvr1j06sqgravpha98ksk2rklyy4n-postgresql-17.5-plperl/lib '
+ '-L/nix/store/x3cdhidmb46pr73x1a6vdqv503xi74yb-python3.12-sqlalchemy-2.0.40/lib '
+ '-L/nix/store/r92isaf1icqb96xh51kmwjp58nj4xk40-python3.12-ua-parser-1.0.1/lib '
+ '-L/nix/store/4137954h5q70irlclm9yqg609am1vxls-python3.12-azure-mgmt-subscription-3.1.1/lib '
+ '-L/nix/store/0dhgrwvyx0spy8256sir5m2dkbmhvr4z-python3.12-sphinxcontrib-applehelp-2.0.0/lib '
+ '-L/nix/store/cy5f79cnkbnqr2rm04lh32m82dpif1qb-c-ares-1.34.5-dev/lib '
+ '-L/nix/store/xqz7y4lfwhr3ljxkjayf5vy7hzhvppa6-python3.12-msal-extensions-1.3.1/lib '
+ '-L/nix/store/dd0cngw4aqr5sm9zvcz7v3m2qds6kxpi-python3.12-portalocker-3.1.1/lib '
+ '-L/nix/store/y2jwi4a4pgmavi994lfdvc6nj45nxi4f-icu4c-76.1-dev/lib '
+ '-L/nix/store/4i49f869yc93c77m0y1lmpnvlzip5pgr-libpng-apng-1.6.46/lib '
+ '-L/nix/store/gbcjq0rdlqwc3yixgi7gx6vb7xagv816-grpc-1.71.0/lib '
+ '-L/nix/store/mijswdfwx4yvqpfrxg6c0cs228w9v7ll-zstd-1.5.7-dev/lib '
+ '-L/nix/store/1m84a2hb8h8qmfd5qdbkq17rz5ga3dqk-openjpeg-2.5.2/lib '
+ '-L/nix/store/b2nry70yph8p60yp8xc0jpr76v9dhj3h-python3.12-boto3-1.36.21/lib '
+ '-L/nix/store/w9gmvrb8km8fp7dsgdzfvy6zwwdv1j0c-python3.12-certifi-2025.01.31/lib '
+ '-L/nix/store/yw429hvy80x2hg00lsfdfhkkib7gz54g-freetype-2.13.3/lib '
+ '-L/nix/store/sa2sp7agy6hrb771cixx18l5hbm732zv-python3.12-psycopg-c-3.2.8/lib '
+ '-L/nix/store/js9nkan8xkk35ksm3sflv5l7pnn8y6bl-python3.12-jmespath-1.0.1/lib '
+ '-L/nix/store/hsppjyxppm3gkb2m3m62ky2c3aarnf91-tk-8.6.15-dev/lib '
+ '-L/nix/store/dbfpsw13lm1d6793mkhvbgkn1hkybw31-python3.12-alembic-1.15.2/lib '
+ '-L/nix/store/r6ywqvwb1mwg5isrzkwwhia09rw11i8n-python3.12-python-engineio-4.12.0/lib '
+ '-L/nix/store/iww6iqdndw1vyfxf7d3b1hdg44k2sj7g-python3.12-jaraco-classes-3.4.0/lib '
+ '-L/nix/store/5gac08v8s9dvzjym4m07mfmazbpzmk1g-python3.12-jsonformatter-0.3.4/lib '
+ '-L/nix/store/0aqkzxp62r9hd632nzwqc8yhgjnqjlfz-lcms2-2.17/lib '
+ '-L/nix/store/vgch8mrdf5y3c7k22y4vpldmss12bnf5-python3.12-sshtunnel-0.4.0/lib '
+ '-L/nix/store/6sd1d5zmg0qs6g5kzymr2bw3xlhandkj-python3.12-yarl-1.18.3/lib '
+ '-L/nix/store/gb1gbljl7vnsia0mis2r207fqigpfdkx-python3.12-zipp-3.21.0/lib '
+ '-L/nix/store/f6cppcr74d7a98m9lg88zsal30g18fcq-python3.12-google-auth-2.38.0/lib '
+ '-L/nix/store/fhzm23qj8n52xb7rhq4fx5pzwlkqafbz-re2-2024-07-02-dev/lib '
+ '-L/nix/store/j1rqwgzm2xgr1dang3mvd09b55hm4a19-python3.12-flask-wtf-1.2.2/lib '
+ '-L/nix/store/1gv2x9bwdwyyi8b28lwz89529l372yzh-python3.12-flask-security-5.6.1/lib '
+ '-L/nix/store/vqpjh9b21bxgjh4z1hxhd1f75h4vh7fk-python3.12-pytz-2025.2/lib '
+ '-L/nix/store/5jx7wddi5mwjsbnyhqx435csk075gj80-python3.12-gssapi-1.9.0/lib '
+ '-L/nix/store/99ayb1x10i2jksqkpxspdrisvci2yfqs-python3.12-eventlet-0.38.2/lib '
+ '-L/nix/store/h4yvw4knj7wsghdn4yz7hpxy9x9fbjd5-python3.12-snowballstemmer-2.2.0/lib '
+ '-L/nix/store/jyz0q1v13bkrashsnc8nm8nns7iyia5d-python3.12-proto-plus-1.26.1/lib '
+ '-L/nix/store/zb406965xij4m5f793xvrr16sjaixi00-brotli-1.1.0-lib/lib '
+ '-L/nix/store/2ggmrindi1bswshhn4adkhhi5cdnzrxh-python3.12-sphinx-8.2.3/lib '
+ '-L/nix/store/wp4nmh0byqn6w9885q10qm6v0vxq8m28-libxcb-1.17.0-dev/lib '
+ '-L/nix/store/wbv7b4dc17n1azxan5m5mm07fifai44a-zstd-1.5.7/lib '
+ '-L/nix/store/b6y8k7i7bgkld9bgjjnsv5bqf2anq7yk-libjpeg-turbo-3.0.4-dev/lib '
+ '-L/nix/store/886673h1j97yglrcrsh7p5qj6v8wyp9x-postgresql-17.5-debug/lib '
+ '-L/nix/store/ckams85854jbch952d2670n5krzii8vd-postgresql-17.5-plpython3/lib '
+ '-L/nix/store/ig27q0qmbqp751igrc2hy5xa96kzv8wf-python3.12-libpass-1.9.0/lib '
+ '-L/nix/store/yjyqllvcz5s4w9h33ars9zkyj08gislg-python3.12-six-1.17.0/lib '
+ '-L/nix/store/2gihkjilrsif9qjqcwxzgfb9sm74kvib-python3.12-authlib-1.5.2/lib '
+ '-L/nix/store/3jy6sfb655sa9vm2w767h4m2v78ydgjh-python3.12-sphinxcontrib-qthelp-2.0.0/lib '
+ '-L/nix/store/8xj3g825qwj894bxafa8h98scxxyvxps-libdeflate-1.23/lib '
+ '-L/nix/store/hf83zvz1bkmfmd52nlzc79937ardd4gr-lcms2-2.17-dev/lib '
+ '-L/nix/store/n4wfnkpcx5xl3sywc4c3c56gws50f42k-python3.12-wrapt-1.17.2/lib '
+ '-L/nix/store/x29fs2yygjlhh7m1kv1096dr5fiic2wm-python3.12-typer-0.15.2/lib '
+ '-L/nix/store/glmlgiwv29vn9jaskk42byy0w6szph1c-libwebp-1.5.0/lib '
+ '-L/nix/store/2imhf872xdkal60k4ypkr3dfj8940hgj-libxcrypt-4.4.38/lib '
+ '-L/nix/store/78aqfkmb3rfjqpch3c1k6gm3wzf9d7d5-postgresql-17.5-lib/lib '
+ '-L/nix/store/y5d7hrd2illwkgiai4n3j1q22yban6gk-python3.12-googleapis-common-protos-1.69.2/lib '
+ '-L/nix/store/kfbfka4ykzp66mi2hb5v183s64ivv1r6-libXft-2.3.9-dev/lib '
+ '-L/nix/store/al31ama07hq4jnkimydl6ny909b3fvwc-python3.12-flask-sqlalchemy-3.1.1/lib '
+ '-L/nix/store/al9vqiga8pnilfhhyickliz88czdz6pa-python3.12-flask-paranoid-0.3.0/lib '
+ '-L/nix/store/8wqqx7cbxkj0m3n4p9n5jhwcaasi6hvi-python3.12-docutils-0.21.2/lib '
+ '-L/nix/store/g62rrqm02r4gjpgmq75702n7bip6zrji-abseil-cpp-20250127.1/lib '
+ '-L/nix/store/hrpppz0k2ynswyzg4if7mahidjqhjy5h-xz-5.8.1/lib '
+ '-L/nix/store/74j3lf6vw9ygf8jjmfhdns0h2767lswj-python3.12-importlib-resources-6.5.2/lib '
+ '-L/nix/store/wwh0ka2w69aw4mxicfw981bzf0p4fs8z-python3.12-azure-core-1.32.0/lib '
+ '-L/nix/store/1l5ls9gsn76rl62yppj4mfslg5b844rk-python3.12-multidict-6.2.0/lib '
+ '-L/nix/store/y0sybq7kfnw9vgzprsbxcj2nash75jmn-python3.12-adal-1.2.7/lib '
+ '-L/nix/store/n7q2p5a4f1shiz5szb3zf8mhg2bkbgmn-python3.12-sphinxcontrib-devhelp-2.0.0/lib '
+ '-L/nix/store/d6d48ipknniqq8g1c6gy7z298sx9p8n0-python3.12-libgravatar-1.0.4/lib '
+ '-L/nix/store/wjqj8ncgdxqpn78qp23blp5ijprpavp9-bzip2-1.0.8-dev/lib '
+ '-L/nix/store/nrphgm4i83w5ss6909c3snqdgq6fk3s0-python3.12-simple-websocket-1.1.0/lib '
+ '-L/nix/store/0hiih5zp76sgz9vjp5bzqhpwd5lr4n06-python3.12-pycares-4.5.0/lib '
+ '-L/nix/store/rnm45zrrnyy7n2j49v19idvjxb3r1vic-python3.12-msal-1.32.0/lib '
+ '-L/nix/store/s1ninn7qg3blqzybydi20hhks36cfgzd-re2-2024-07-02/lib '
+ '-L/nix/store/f57f52ppyksjmdvdlmxbvxp2vc29jiq4-fontconfig-2.16.0-dev/lib '
+ '-L/nix/store/wf3dym6h0cyk6qxcfpjsbzqc3la0zpvj-python3.12-sphinxcontrib-serializinghtml-2.0.0/lib '
+ '-L/nix/store/8rh28am7hwsszjpw0rdcx75l367bnxng-python3.12-google-auth-oauthlib-1.2.1/lib '
+ '-L/nix/store/b2aj478jxny0yvwqr6zglcmp99r3563b-libX11-1.8.12-dev/lib '
+ '-L/nix/store/2y2hhlki6macaj9j1409q1j6i33l6igf-libxcb-1.17.0/lib '
+ '-L/nix/store/rx8n7pmsl4w4nv04dr1akili227jlz9m-python3.12-markupsafe-3.0.2/lib '
+ '-L/nix/store/xy880mwxql4nhdrw15r0ay1dwx3bmwrh-python3.12-cffi-1.17.1/lib '
+ '-L/nix/store/kk1w27p598fgcrbvkv2jlw33pvbvimg6-python3.12-bcrypt-4.3.0/lib '
+ '-L/nix/store/a906siib3gg1v9r8c7fszrmwjfcafs2n-python3.12-babel-2.17.0/lib '
+ '-L/nix/store/ih80128bygz6p5qv7lfbdcdylvf38n78-python3.12-ua-parser-builtins-1.0.1/lib '
+ '-L/nix/store/jp0pd2zyjgrd7knkjpi5dj04a5rpxygm-python3.12-wheel-0.45.1/lib '
+ '-L/nix/store/m9rqkx8s9a45wivak202kiw7p11xp6n5-libwebp-1.5.0/lib '
+ '-L/nix/store/xdczp4bkrp2dff2apb1vbybbfmfi8f7d-brotli-1.1.0-dev/lib '
+ '-L/nix/store/42df7w38af9j989mgkg2dgaci2l8dlp4-python3.12-qrcode-8.2/lib '
+ '-L/nix/store/v53v67k3s16wmak41qy0q54pd7dkbcvr-libXrender-0.9.12/lib '
+ '-L/nix/store/rxd3kdsc7k72198g58wk0qp3xdip5x5d-zlib-1.3.1-dev/lib '
+ '-L/nix/store/q152izwmf9qzy8hj2p8mjv3imzbh7s9w-python3.12-typing-extensions-4.13.2/lib '
+ '-L/nix/store/dxgb8fjw0x5kh6nyfvwrmf6gspvmr1q9-python3.12-isodate-0.7.2/lib '
+ '-L/nix/store/zkvl3npcgzc1w623pj0fag0qsczd5rxq-bzip2-1.0.8/lib '
+ '-L/nix/store/b59n4m45bfzzpkfa2gz95bhwa8fwc8yc-python3.12-flask-3.1.0/lib '
+ '-L/nix/store/16dz0p8jp8z5ys35s01aslpmghh3zgp4-python3.12-dnspython-2.7.0/lib '
+ '-L/nix/store/h0dyr6sdb2jk8j7j2q5mjmfg57xdfncc-python3.12-speaklater3-1.4/lib '
+ '-L/nix/store/lpspyskfibz1b27c4914p2qipgpm1rva-tk-8.6.15/lib '
+ '-L/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib '
+ '-L/nix/store/08k6l6z15a08grg07yx73hr9szgas406-python3.12-msrest-0.7.1/lib '
+ '-L/nix/store/wddbpvwf533jwv3qix0qiib8bvg4xf45-python3.12-attrs-25.3.0/lib '
+ '-L/nix/store/nkw085bb0pmvb5rdw24cm4y9xpkcfc69-python3.12-fl
