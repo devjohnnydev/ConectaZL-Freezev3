@@ -76,7 +76,10 @@ Community news portal developed in Django for São Paulo's East Zone (Zona Leste
 - **DEPLOY_RAILWAY.md**: Complete deployment guide for Railway
 
 ## User Preferences
-None specified yet.
+- **Music Integration**: User dismissed Spotify integration. Using Radio Browser API as free alternative for radio streaming.
+
+## Integration Notes
+- **Spotify**: User dismissed the official Spotify connector integration. If needed in future, will need to manually set up Spotify Web API credentials as secrets.
 
 ## Important Notes
 - The project uses Python 3.11 specifically - do not upgrade to Python 3.12 as it causes numpy compatibility issues

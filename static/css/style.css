@@ -2764,3 +2764,219 @@ tbody tr:hover {
         gap: 0.75rem;
     }
 }
+
+/* Radio Player Styles */
+.nav-link-radio {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link-radio:hover {
+    color: var(--primary-color);
+}
+
+.radio-player {
+    position: fixed;
+    bottom: -500px;
+    right: 20px;
+    width: 350px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 249, 240, 0.98) 100%);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid transparent;
+    border-image: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-image-slice: 1;
+    overflow: hidden;
+}
+
+.radio-player-open {
+    bottom: 20px;
+}
+
+.radio-player-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radio-player-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.radio-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.radio-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.radio-player-body {
+    padding: 1.5rem;
+}
+
+.radio-station-info {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(139, 61, 255, 0.05);
+    border-radius: 8px;
+}
+
+.radio-station-info p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+}
+
+.radio-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.radio-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.radio-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-glow);
+}
+
+.radio-btn:active {
+    transform: scale(0.95);
+}
+
+.radio-stations {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.radio-station-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    margin-bottom: 0.25rem;
+}
+
+.radio-station-item:hover {
+    background: rgba(139, 61, 255, 0.05);
+}
+
+.radio-station-item input[type="radio"] {
+    margin-right: 0.75rem;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.radio-station-item span {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.radio-volume {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.radio-volume label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    min-width: 60px;
+}
+
+#radio-volume-control {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    outline: none;
+    -webkit-appearance: none;
+}
+
+#radio-volume-control::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+#radio-volume-control::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    border: none;
+}
+
+.radio-stations::-webkit-scrollbar {
+    width: 6px;
+}
+
+.radio-stations::-webkit-scrollbar-track {
+    background: rgba(139, 61, 255, 0.05);
+    border-radius: 3px;
+}
+
+.radio-stations::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.radio-stations::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}

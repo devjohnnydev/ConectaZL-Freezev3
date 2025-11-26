@@ -22,6 +22,13 @@
                 <a href="{% url 'news_feed' %}" class="nav-link">NOTÍCIAS</a>
             </div>
             <div class="nav-links-right">
+                <button id="radio-toggle" class="nav-link nav-link-radio" title="Ouvir rádio">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"></path>
+                        <line x1="2" y1="20" x2="2.01" y2="20"></line>
+                    </svg>
+                    Rádio
+                </button>
                 {% if user.is_authenticated %}
                     <a href="{% url 'user_profile' user.username %}" class="nav-link">
                         <span class="user-avatar-small" {% if user.profile.avatar %}style="background-image: url('{{ user.profile.avatar.url }}'); background-size: cover; font-size: 0;"{% endif %}>
@@ -56,6 +63,48 @@
         {% block content %}{% endblock %}
     </main>
 
+    <div id="radio-player" class="radio-player">
+        <div class="radio-player-header">
+            <h3>🎵 Player de Rádio</h3>
+            <button id="radio-close" class="radio-close">&times;</button>
+        </div>
+        <div class="radio-player-body">
+            <div class="radio-station-info">
+                <p id="radio-station-name">Selecione uma estação</p>
+            </div>
+            <div class="radio-controls">
+                <button id="radio-play" class="radio-btn radio-btn-play">▶</button>
+                <button id="radio-stop" class="radio-btn radio-btn-stop" style="display: none;">⏸</button>
+            </div>
+            <div class="radio-stations">
+                <label class="radio-station-item">
+                    <input type="radio" name="station" value="https://ice.fabricahost.com.br/nativafmgoiania|Nativa FM - Goiânia">
+                    <span>Nativa FM - Goiânia</span>
+                </label>
+                <label class="radio-station-item">
+                    <input type="radio" name="station" value="https://centova.svdns.com.br:20021/stream|Jovem Pan FM - São Paulo">
+                    <span>Jovem Pan FM - São Paulo</span>
+                </label>
+                <label class="radio-station-item">
+                    <input type="radio" name="station" value="https://playerservices.streamtheworld.com/api/livestream-redirect/RDMIX_SPAAC.aac|Rádio Mix FM - São Paulo">
+                    <span>Rádio Mix FM - São Paulo</span>
+                </label>
+                <label class="radio-station-item">
+                    <input type="radio" name="station" value="https://painelfm.com.br:10065/stream|Super Rádio Tupi - Rio de Janeiro">
+                    <span>Super Rádio Tupi - RJ</span>
+                </label>
+                <label class="radio-station-item">
+                    <input type="radio" name="station" value="https://stream-153.zeno.fm/3a6vmu37ykhvv|Rádio Cultura Brasil">
+                    <span>Rádio Cultura Brasil</span>
+                </label>
+            </div>
+            <div class="radio-volume">
+                <label for="radio-volume-control">Volume:</label>
+                <input type="range" id="radio-volume-control" min="0" max="100" value="70">
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-content">
             <div class="footer-links">
@@ -84,6 +133,81 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const radioPlayer = document.getElementById('radio-player');
+        const radioToggle = document.getElementById('radio-toggle');
+        const radioClose = document.getElementById('radio-close');
+        const radioPlay = document.getElementById('radio-play');
+        const radioStop = document.getElementById('radio-stop');
+        const radioStationName = document.getElementById('radio-station-name');
+        const radioVolumeControl = document.getElementById('radio-volume-control');
+        const stationInputs = document.querySelectorAll('input[name="station"]');
+        
+        let audioElement = null;
+        let currentStation = null;
+
+        radioToggle.addEventListener('click', () => {
+            radioPlayer.classList.toggle('radio-player-open');
+        });
+
+        radioClose.addEventListener('click', () => {
+            radioPlayer.classList.remove('radio-player-open');
+        });
+
+        stationInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                const [url, name] = e.target.value.split('|');
+                currentStation = { url, name };
+                radioStationName.textContent = name;
+                
+                if (audioElement && !audioElement.paused) {
+                    playRadio();
+                }
+            });
+        });
+
+        function playRadio() {
+            if (!currentStation) {
+                alert('Por favor, selecione uma estação de rádio primeiro!');
+                return;
+            }
+
+            if (audioElement) {
+                audioElement.pause();
+                audioElement = null;
+            }
+
+            audioElement = new Audio(currentStation.url);
+            audioElement.volume = radioVolumeControl.value / 100;
+            
+            audioElement.play().then(() => {
+                radioPlay.style.display = 'none';
+                radioStop.style.display = 'inline-block';
+            }).catch(error => {
+                console.error('Erro ao reproduzir rádio:', error);
+                alert('Erro ao conectar com a estação. Tente outra.');
+            });
+        }
+
+        function stopRadio() {
+            if (audioElement) {
+                audioElement.pause();
+                audioElement = null;
+                radioPlay.style.display = 'inline-block';
+                radioStop.style.display = 'none';
+            }
+        }
+
+        radioPlay.addEventListener('click', playRadio);
+        radioStop.addEventListener('click', stopRadio);
+
+        radioVolumeControl.addEventListener('input', (e) => {
+            if (audioElement) {
+                audioElement.volume = e.target.value / 100;
+            }
+        });
+    </script>
 
     {% block scripts %}{% endblock %}
 </body>
